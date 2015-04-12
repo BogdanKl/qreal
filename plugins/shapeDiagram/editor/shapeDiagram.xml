@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metamodel version="1.0.0" xmlns="http://schema.real.com/schema/">
+    <include>../../commonMetamodels/kernelMetamodel.xml</include>
+    <namespace>UML 2.0</namespace>
+    <diagram name="ShapeEditor" nodeName="ShapeDiagram" displayedName="ShapeEditor">
+	<nonGraphicTypes>
+		<enum name="styleTypes" displayedName="Style Types">
+			<value name="solid"/>
+			<value name="dot"/>
+			<value name="dash"/>
+			<value name="dashdot"/>
+			<value name="dashdotdot"/>
+			<value name="none"/>
+		</enum>
+	</nonGraphicTypes>
+        <graphicTypes>
+            <node name="Rectangle" displayedName="Rectangle">
+                <graphics>
+                    <picture>import QtQuick 1.0
+Rectangle{
+	property string ids: ""
+	width: 100
+	height: 100
+	color: "transparent"
+	Rectangle{
+		x: parseInt(models.getProperties(ids, "X"))
+		y: parseInt(models.getProperties(ids, "Y"))
+		width: parseInt(models.getProperties(ids, "Width"))
+		height: parseInt(models.getProperties(ids, "Height"))
+		color: models.getProperties(ids, "Color")
+		border.color: models.getProperties(ids, "border.color")
+		border.width: parseInt(models.getProperties(ids, "border.width"))
+	}
+}
+                    </picture>
+                    <labels/>
+                    <ports/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X" displayedName="X">
+				<default>0</default>
+			</property>
+                        <property type="int" name="Y" displayedName="Y">
+				<default>0</default>
+			</property>
+                        <property type="int" name="Width" displayedName="Width">
+				<default>100</default>
+			</property>
+                        <property type="int" name="Height" displayedName="Height">
+				<default>100</default>
+			</property>
+                        <property type="string" name="Color" displayedName="Color">
+				<default>transparent</default>
+			</property>
+                        <property type="string" name="border.color" displayedName="border.color">
+				<default>black</default>
+			</property>
+                        <property type="int" name="border.width" displayedName="border.width">
+				<default>1</default>
+			</property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Ellipse" displayedName="Ellipse">
+		<graphics>
+		   <picture>import QtQuick 1.0
+import CustomComponents 1.0
+Rectangle{
+	property string ids: ""
+	width: 100
+	height: 100
+	color: "transparent"
+	Ellipse {
+		x: parseInt(models.getProperties(ids, "X"))
+		y: parseInt(models.getProperties(ids, "Y"))
+		width: parseInt(models.getProperties(ids, "Width"))
+		height: parseInt(models.getProperties(ids, "Height"))
+		color: models.getProperties(ids, "Color")
+		border.style: models.getProperties(ids, "Style")
+		border.color: models.getProperties(ids, "border.color")
+		border.width: parseInt(models.getProperties(ids, "border.width"))
+	}
+}
+		   </picture>
+		   <labels/>
+		   <ports/>
+		</graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X" displayedName="X">
+                            <default>50</default>
+                        </property>
+                        <property type="int" name="Y" displayedName="Y">
+                            <default>50</default>
+                        </property>
+                        <property type="int" name="Width" displayedName="Width">
+                            <default>100</default>
+                        </property>
+                        <property type="int" name="Height" displayedName="Height">
+                            <default>100</default>
+                        </property>
+                        <property type="string" name="border.color" displayedName="Border.color">
+                            <default>black</default>
+                        </property>
+                        <property type="styleTypes" name="Style" displayedName="Style">
+                            <default>solid</default>
+                        </property>
+                        <property type="int" name="border.width" displayedName="Border.width">
+                            <default>1</default>
+                        </property>
+                        <property type="string" name="Color" displayedName="Color">
+                            <default>transparent</default>
+                        </property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Line" displayedName="Line">
+                <graphics>
+                    <picture>import QtQuick 1.0
+import CustomComponents 1.0
+Rectangle{
+	property string ids: ""
+	width: 100
+	height: 100
+	color: "transparent"
+	Line {
+		x1: parseInt(models.getProperties(ids, "X1"))
+		y1: parseInt(models.getProperties(ids, "Y1"))
+		x2: parseInt(models.getProperties(ids, "X2"))
+		y2: parseInt(models.getProperties(ids, "Y2"))
+		color: models.getProperties(ids, "Color")
+		style: models.getProperties(ids, "styleType")
+		width: parseInt(models.getProperties(ids, "Width"))
+	}
+}	
+                    </picture>
+                    <labels/>
+                    <ports/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X1" displayedName="X1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="Y1" displayedName="Y1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="X2" displayedName="X2">
+                            <default>50</default>
+                        </property>
+                        <property type="int" name="Y2" displayedName="Y2">
+                            <default>50</default>
+                        </property>
+                        <property type="string" name="Color" displayedName="Color">
+                            <default>black</default>
+                        </property>
+                        <property type="styleType" name="styleType" displayedName="Style"/>
+                        <property type="int" name="Width" displayedName="Width">
+                            <default>1</default>
+                        </property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Arc">
+                <graphics>
+                    <picture>import QtQuick 1.0
+import CustomComponents 1.0
+Rectangle{
+	property string ids: ""
+	width: 100
+	height: 100
+	color: "transparent"
+	Arc {
+		x1: parseInt(models.getProperties(ids, "X1"))
+		y1: parseInt(models.getProperties(ids, "Y1"))
+		x2: parseInt(models.getProperties(ids, "X2"))
+		y2: parseInt(models.getProperties(ids, "Y2"))
+		color: models.getProperties(ids, "Color")
+		width: parseInt(models.getProperties(ids, "Width"))
+		style: models.getProperties(ids, "Style")
+		startAngle: parseInt(models.getProperties(ids, "startAngle"))
+		spanAngle: parseInt(models.getProperties(ids, "spanAngle"))
+	}
+}
+                    </picture>
+                    <labels/>
+                    <ports/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X1" displayedName="X1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="Y1" displayedName="Y1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="X2" displayedName="X2">
+                            <default>50</default>
+                        </property>
+                        <property type="int" name="Y2" displayedName="Y2">
+                            <default>50</default>
+                        </property>
+                        <property type="string" name="Color" displayedName="Color">
+                            <default>black</default>
+                        </property>
+                        <property type="styleType" name="Style" displayedName="Style">
+				<default>solid</default>
+			</property>
+                        <property type="int" name="Width" displayedName="Width">
+                            <default>1</default>
+                        </property>
+                        <property type="int " name="startAngle" displayedName="startAngle">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="spanAngle" displayedName="spanAngle">
+                            <default>1440</default>
+                        </property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Text">
+                <graphics>
+                    <picture>import QtQuick 1.0
+Text{
+	property string ids: ""
+	x: parseInt(models.getProperties(ids, "X"))
+	y: parseInt(models.getProperties(ids, "Y"))
+	text: models.getProperties(ids, "Text")
+	color: models.getProperties(ids, "Color")
+	font.family: models.getProperties(ids, "fontFamily")
+	font.pixelSize: parseInt(models.getProperties(ids, "fontPixelSize"))
+	font.bold: models.getProperties(ids, "fontBold")
+	font.italic: models.getProperties(ids, "fontItalic")
+	font.underline: models.getProperties(ids, "fontUnderline")
+}
+                    </picture>
+                    <labels/>
+                    <ports/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X" displayedName="X">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="Y" displayedName="Y">
+                            <default>0</default>
+                        </property>
+                        <property type="string" name="Color">
+                            <default>black</default>
+                        </property>
+                        <property type="string" name="Text" displayedName="Text">
+                            <default>text</default>
+                        </property>
+                        <property type="string" name="font.family" displayedName="fontFamily"/>
+                        <property type="int" name="font.pixelSize" displayedName="fontPixelSize">
+                            <default>12</default>
+                        </property>
+                        <property type="bool" name="font.bold" displayedName="fontBold">
+                            <default>false</default>
+                        </property>
+                        <property type="bool" name="font.italic" displayedName="fontItalic">
+                            <default>false</default>
+                        </property>
+                        <property type="bool" name="font.underline" displayedName="fontUnderline">
+                            <default>false</default>
+                        </property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Image">
+		<graphics>
+			<picture/>
+			<labels/>
+			<ports/>
+		</graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="X1" displayedName="X1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="Y1" displayedName="Y1">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="X2" displayedName="X2">
+                            <default>100</default>
+                        </property>
+                        <property type="int" name="Y2" displayedName="Y2">
+                            <default>100</default>
+                        </property>
+                        <property type="string" name="Source" displayedName="Source">
+                            <default>""</default>
+                        </property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+            <node name="Curve">
+                <graphics>
+                    <picture>import QtQuick 1.0
+import CustomComponents 1.0
+Rectangle{
+	property string ids: ""
+	width: 110
+	height: 110
+	color: "transparent"
+	Curve {
+		sizex: parent.width
+		sizey: parent.height
+		startx: parseInt(models.getProperties(ids, "startx"))
+		starty: parseInt(models.getProperties(ids, "starty"))
+		endx: parseInt(models.getProperties(ids, "endx"))
+		endy: parseInt(models.getProperties(ids, "endy"))
+		style: models.getProperties(ids, "Style")
+		x: parseInt(models.getProperties(ids, "X"))
+		y: parseInt(models.getProperties(ids, "Y"))
+		color: models.getProperties(ids, "Color")
+		fill: models.getProperties(ids, "Fill")
+	}
+}	
+                    </picture>
+                    <labels/>
+                    <ports/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property type="int" name="startx" displayedName="startx">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="starty" displayedName="starty">
+                            <default>0</default>
+                        </property>
+                        <property type="int" name="endx" displayedName="endx">
+                            <default>100</default>
+                        </property>
+                        <property type="int" name="endy" displayedName="endy">
+                            <default>100</default>
+                        </property>
+                        <property type="int" name="X" displayedName="x">
+                            <default>50</default>
+                        </property>
+                        <property type="int" name="Y" displayedName="y">
+                            <default>50</default>
+                        </property>
+                        <property type="string" name="Color" displayedName="Color">
+                            <default>black</default>
+                        </property>
+                        <property type="string" name="Fill" displayedName="Fill">
+                            <default>transparent</default>
+                        </property>
+                        <property type="styleType" name="Style" displayedName="Style">
+				<default>solid</default>
+			</property>
+                    </properties>
+                    <explodesTo/>
+                </logic>
+            </node>
+        </graphicTypes>
+    </diagram>
+</metamodel>

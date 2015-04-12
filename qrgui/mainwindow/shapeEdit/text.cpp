@@ -5,6 +5,8 @@
 #include <QtGui/QPainter>
 #include <QtGui/QTextCursor>
 
+using namespace qReal;
+
 Text::Text(bool isDynamic)
 	: Item(NULL), mIsDynamicText(isDynamic)
 {

@@ -1,5 +1,7 @@
 #include "textPicture.h"
 
+using namespace qReal;
+
 TextPicture::TextPicture()
 	: Text(false)
 {

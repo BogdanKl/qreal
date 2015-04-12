@@ -8,6 +8,7 @@ SUBDIRS	= \
         metaEditor/metaEditor.pro \
         requirements/requirements.pro \
         domainAnalysis/domainAnalysis.pro \
+	shapeDiagram/shapeDiagram.pro \
 
 
 

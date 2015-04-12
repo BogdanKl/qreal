@@ -5,6 +5,8 @@
 #include "mainwindow/shapeEdit/item.h"
 #include "mainwindow/shapeEdit/path.h"
 
+namespace qReal {
+
 class Curve : public Path
 {
 public:
@@ -30,3 +32,5 @@ private:
 	QPointF mC2;
 	QPainterPath* mCurvePath;
 };
+
+}

@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QGraphicsSceneMouseEvent>
 
+using namespace qReal;
+
 Curve::Curve(QPointF const &start, QPointF const &end, QPointF const &c1)
 		: Path(QPainterPath(start))
 {

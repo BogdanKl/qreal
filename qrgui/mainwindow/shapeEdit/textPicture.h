@@ -2,6 +2,8 @@
 
 #include "mainwindow/shapeEdit/text.h"
 
+namespace  qReal {
+
 class TextPicture : public Text
 {
 public:
@@ -30,3 +32,5 @@ public:
 private:
 	QFont mFont;
 };
+
+}

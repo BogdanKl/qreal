@@ -7,6 +7,8 @@
 
 #include "mainwindow/shapeEdit/item.h"
 
+namespace qReal {
+
 class Text : public Item
 {
 public:
@@ -38,3 +40,5 @@ protected:
 	QRectF mRect;
 	void drawForDynamicText(QPainter* painter);
 };
+
+}
