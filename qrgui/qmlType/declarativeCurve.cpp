@@ -28,6 +28,23 @@ void DeclarativeCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	if (mFirstSizey == 0) {
 		mFirstSizey = mSizey;
 	}
+	qDebug() << "Curva";
+	QPen pen(mColor, mWidth);
+	if (mStyle == "solid") {
+		pen.setStyle(Qt::SolidLine);
+	} else if (mStyle == "dot") {
+		pen.setStyle(Qt::DotLine);
+	} else if (mStyle == "dash") {
+		pen.setStyle(Qt::DashLine);
+	} else if (mStyle == "dashdot") {
+		pen.setStyle(Qt::DashDotLine);
+	} else if (mStyle == "dashdotdot") {
+		pen.setStyle(Qt::DashDotDotLine);
+	} else if (mStyle == "none") {
+		pen.setStyle(Qt::NoPen);
+	}
+
+	painter->setPen(pen);
 	QPoint start;
 	start.setX(mStartx);
 	start.setY(mStarty);
