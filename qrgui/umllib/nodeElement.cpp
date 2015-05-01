@@ -188,6 +188,7 @@ void NodeElement::setName(QString const &value, bool withUndoRedo)
 
 void NodeElement::setGeometry(QRectF const &geom)
 {
+    //
 	prepareGeometryChange();
 	setPos(geom.topLeft());
 	if (geom.isValid()) {
@@ -202,6 +203,50 @@ void NodeElement::setGeometry(QRectF const &geom)
 
 void NodeElement::syncQmlItemSize()
 {
+	QMap<QString, QVariant> list = mGraphicalAssistApi.properties(logicalId());
+	bool propertyChange =false;
+	if (list.contains("Width") && list.contains("Height")) {
+		if (list.value("Width") != mContents.width() || list.value("Height") != mContents.height()) {
+			if (list.contains("X")) {
+				int x = list.value("X").toInt();
+				int y = list.value("Y").toInt();
+				int width = list.value("Width").toInt();
+				int height = list.value("Height").toInt();
+				//qDebug() << "X" << ((float)( x / width) * mContents.width());
+				list.insert("X", (int)(( (float)x / (float)width) * mContents.width()));
+				list.insert("Y", (int) (((float) y / (float) height) * mContents.height()));
+			}
+			list.insert("Width", mContents.width());
+			list.insert("Height", mContents.height());
+			mGraphicalAssistApi.setProperties(logicalId(), list);
+			propertyChange = true;
+		}
+	}
+	if (list.contains("endx")) {
+		if (list.value("endx") != mContents.width() || list.value("endy") != mContents.height()) {
+			int x = list.value("X").toInt();
+			int y = list.value("Y").toInt();
+			int width = list.value("endx").toInt();
+			int height = list.value("endy").toInt();
+			if (list.contains("X")) {
+				list.insert("X", (int) (((float) x / (float) width) * mContents.width()));
+				list.insert("Y", (int) (((float) y / (float) height) * mContents.height()));
+			}
+			list.insert("endx", mContents.width());
+			list.insert("endy", mContents.height());
+			mGraphicalAssistApi.setProperties(logicalId(), list);
+			propertyChange = true;
+		}
+	}
+	if (list.contains("X2")) {
+		if (list.value("X2") != mContents.width() || list.value("Y2") != mContents.height()) {
+			list.insert("X2", mContents.width());
+			list.insert("Y2", mContents.height());
+			mGraphicalAssistApi.setProperties(logicalId(), list);
+			propertyChange = true;
+		}
+	}
+	if (propertyChange) { updateData(); }
 	mQmlItem->setSize(mContents.size());
 }
 
@@ -821,8 +866,11 @@ void NodeElement::updateData()
 	}
 	mElementImpl->updateData(this);
 	QDeclarativeProperty propertyIds(mQmlItem,"ids");
+	qDebug() << "Contents " << mContents.width();
 	propertyIds.write("");
 	propertyIds.write(logicalId().toString());
+	mContents.setWidth(mQmlItem->property("width").toReal());
+	mContents.setHeight(mQmlItem->property("height").toReal());
 	updateLabels();
 	update();
 }
