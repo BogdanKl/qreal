@@ -21,7 +21,7 @@ public:
 	virtual void changeParent(Id const &element, Id const &parent, QPointF const &position) = 0;
 	virtual void copyProperties(Id const &dest, Id const &src) = 0;
 	virtual QMap<QString, QVariant> properties(Id const id) = 0;
-	virtual QString getProperties(QString const id, QString type) = 0;
+	virtual QVariant getProperties(QString const id, QString type) = 0;
 	virtual IdList temporaryRemovedLinksFrom(Id const &elem) const = 0;
 	virtual IdList temporaryRemovedLinksTo(Id const &elem) const = 0;
 	virtual IdList temporaryRemovedLinksNone(Id const &elem) const = 0;

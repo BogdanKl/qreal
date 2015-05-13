@@ -49,6 +49,10 @@
         <file>icons/startTab/open.svg</file>
         <file>icons/startTab/createInterpreted.svg</file>
         <file>icons/startTab/openInterpreted.svg</file>
+	<file alias="qmlType/Control/qmldir">qmlType/Control/qmldir</file>
+	<file alias="qmlType/Control/Button.qml">qmlType/Control/Button.qml</file>
+	<file alias="qmlType/Control/CheckBox.qml">qmlType/Control/CheckBox.qml</file>
+	<file alias="qmlType/Control/TextArea.qml">qmlType/Control/TextArea.qml</file>
     </qresource>
     <qresource prefix="/images">
         <file>icons/slavery.jpg</file>

@@ -76,6 +76,8 @@ public:
 	MainWindow(QString const &fileToOpen = QString());
 	~MainWindow();
 
+	void makeQml();
+
 	EditorManagerInterface &editorManager();
 	EditorView *getCurrentTab() const;
 	bool isCurrentTabShapeEdit() const;
@@ -233,6 +235,7 @@ private slots:
 
 	void print();
 	void makeSvg();
+
 	void showGrid(bool isChecked);
 
 	void sceneSelectionChanged();

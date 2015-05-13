@@ -46,7 +46,7 @@ public:
 
 	void copyProperties(Id const &dest, Id const &src) override;
 	Q_INVOKABLE QMap<QString, QVariant> properties(Id const id) override;
-	Q_INVOKABLE QString getProperties(QString const ids, QString type) override;
+	Q_INVOKABLE QVariant getProperties(QString const ids, QString type) override;
 	void setProperties(Id const &id, QMap<QString, QVariant> const &properties);
 
 	void stackBefore(Id const &element, Id const &sibling);

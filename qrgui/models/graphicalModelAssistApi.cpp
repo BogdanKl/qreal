@@ -94,7 +94,7 @@ QMap<QString, QVariant> GraphicalModelAssistApi::properties(Id const id)
 	return mGraphicalModel.mutableApi().properties(id);
 }
 
-QString GraphicalModelAssistApi::getProperties(QString const ids, QString type)
+QVariant GraphicalModelAssistApi::getProperties(QString const ids, QString type)
 {
 	if (!ids.isEmpty()) {
 		return mGraphicalModel.mutableApi().properties(Id::loadFromString(ids)).take(type).toString();

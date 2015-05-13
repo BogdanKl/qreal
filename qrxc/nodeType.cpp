@@ -81,6 +81,10 @@ bool NodeType::initQml()
 
 void NodeType::generateQml() const
 {
+	mDiagram->editor()->xmlCompiler()->addResource("\t<file>../../../qrgui/qmlType/Control/Button.qml</file>\n");
+	mDiagram->editor()->xmlCompiler()->addResource("\t<file>../../../qrgui/qmlType/Control/CheckBox.qml</file>\n");
+	mDiagram->editor()->xmlCompiler()->addResource("\t<file>../../../qrgui/qmlType/Control/TextArea.qml</file>\n");
+
 	mDiagram->editor()->xmlCompiler()->addResource("\t<file>generated/shapes/" + resourceName("Class") + "</file>\n");
 
 	OutFile out("generated/shapes/" + resourceName("Class"));

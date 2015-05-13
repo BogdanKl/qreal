@@ -127,10 +127,8 @@ void NodeElement::initQml()
 	QDeclarativeComponent component(mQmlEngine);
 	component.setData(mElementImpl->qmlString().toLocal8Bit(), QUrl());
 	if (component.isReady()) {
-		qDebug() << "May be here";
 		QObject  *object = component.create();
 		object->setProperty("ids", logicalId().toString());
-		qDebug() << mGraphicalAssistApi.properties(logicalId());
 		mQmlItem = qobject_cast<QDeclarativeItem *>(object);
 	} else {
 		qDebug() << "Qml parsing for" << id().toString() << "failed. Reason:" << component.errorString();
