@@ -25,7 +25,6 @@ void DeclarativeImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	QString const fileName = SettingsManager::value("pathToImages").toString() + "/"
 			+ mSource;
 	QRect rect(mX1, mY1, mX2 - mX1, mY2 - mY1);
-	qDebug() << rect;
 	mImagesCache.drawImage(fileName, *painter, rect);
 }
 
@@ -161,7 +160,6 @@ void DeclarativeImage::setY1(int y1)
 void DeclarativeImage::setX2(int x2)
 {
 	if (mX2 != x2) {
-		qDebug() << "changed";
 		mX2 = x2;
 		updateSize();
 		emit x2Changed();

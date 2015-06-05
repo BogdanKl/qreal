@@ -28,7 +28,6 @@ void DeclarativeCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	if (mFirstSizey == 0) {
 		mFirstSizey = mSizey;
 	}
-	qDebug() << "Curva";
 	QPen pen(mColor, mWidth);
 	if (mStyle == "solid") {
 		pen.setStyle(Qt::SolidLine);
