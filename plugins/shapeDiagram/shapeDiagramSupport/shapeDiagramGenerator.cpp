@@ -20,11 +20,12 @@ ShapeDiagramGenerator::ShapeDiagramGenerator(qrRepo::GraphicalRepoApi const &gap
 	, mApi(api)
 	, mErrorReporter(errorReporter)
 {
+	mElement = mDocument.createElement("ports");
+	mLabels = mDocument.createElement("labels");
 }
 
 ShapeDiagramGenerator::~ShapeDiagramGenerator()
 {
-
 }
 
 void ShapeDiagramGenerator::generate()
@@ -61,12 +62,21 @@ void ShapeDiagramGenerator::generate()
 	}
 }
 
-QList<QVariant> ShapeDiagramGenerator::generateExplosion(Id const &id)
+QString ShapeDiagramGenerator::generateExplosion(Id const &id)
 {
 	QString code =  generateCode(id);
-	QList<QVariant> result;
-	result << mParent.first << mParent.second << code;
-	return result;
+	QDomElement graphics= mDocument.createElement("graphics");
+	mDocument.appendChild(graphics);
+	QDomElement picture = mDocument.createElement("picture");
+	picture.setAttribute("sizex", mParent.first);
+	picture.setAttribute("sizey", mParent.second);
+	QDomText const textElement = picture.ownerDocument().createTextNode(code);
+	picture.appendChild(textElement);
+	graphics.appendChild(picture);
+	graphics.appendChild(mLabels);
+	graphics.appendChild(mElement);
+	qDebug() << mDocument.toString();
+	return mDocument.toString();
 }
 
 QString ShapeDiagramGenerator::generateCode(const Id &id)
@@ -93,7 +103,7 @@ QString ShapeDiagramGenerator::generateCode(const Id &id)
 	foreach (Id const childId, mApi.children(id)) {
 		result += generateElements(childId, mParent, topleft, "\t");
 	}
-	return (result + QString("}\n"));
+	return (result + QString("}"));
 }
 
 QString ShapeDiagramGenerator::generateBackground(QPair<int, int> parent)
@@ -111,7 +121,6 @@ void ShapeDiagramGenerator::calculateSize(const Id &id, QPoint &topleft, QPoint 
 	QPoint position = mGApi.position(id).toPoint();
 	QPoint right;
 	QString name = id.type().toString();
-	qDebug() << topleft << topright << position;
 	if (name == "qrm:/ShapeDiagram/ShapeEditor/Text") {
 		right = mGApi.configuration(id).value<QPolygon>().at(2);
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Line" || name == "qrm:/ShapeDiagram/ShapeEditor/Arc" || name == "qrm:/ShapeDiagram/ShapeEditor/Image") {
@@ -140,23 +149,31 @@ void ShapeDiagramGenerator::calculateSize(const Id &id, QPoint &topleft, QPoint 
 QString ShapeDiagramGenerator::generateElements(const Id &id, QPair<int, int> parent, QPoint topleft, QString t)
 {
 	QString result = "";
+	bool isclosebrackneed = false;
 	QPoint position = mGApi.position(id).toPoint();
 	QString name = id.type().toString();
 	qReal::Id logicId = mGApi.logicalId(id);
 	if (name == "qrm:/ShapeDiagram/ShapeEditor/Rectangle") {
 		result += generateRectangle(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Ellipse") {
 		result += generateEllipse(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Line") {
 		result += generateLine(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Curve") {
 		result += generateCurve(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Image") {
 		result += generateImage(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Arc") {
 		result += generateArc(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Text") {
 		result += generateText(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/TextArea") {
 		result += generateTextArea(logicId, position, topleft, parent, t);
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Port") {
@@ -165,15 +182,17 @@ QString ShapeDiagramGenerator::generateElements(const Id &id, QPair<int, int> pa
 		result += generateLinePort(logicId, position, topleft, parent, t);
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/Button") {
 		result += generateButton(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	} else if (name == "qrm:/ShapeDiagram/ShapeEditor/CheckBox") {
 		result += generateCheckBox(logicId, position, topleft, parent, t);
+		isclosebrackneed = true;
 	}
 	foreach(Id const childId, mGApi.children(id))
 	{
 		result += generateElements(childId, parent, topleft, t + "\t");
 	}
 
-	if (name != "qrm:/ShapeDiagram/ShapeEditor/ShapeDiagramNode" && name != "qrm:/MetaEditor/MetaEditor/ShapeDiagramNode")
+	if (isclosebrackneed)
 	{
 		result += QString("%1%2").arg(t).arg(QString("}\n"));
 	}
@@ -206,16 +225,13 @@ QString ShapeDiagramGenerator::generateRectangle(const Id &id, QPoint point, QPo
 
 QString ShapeDiagramGenerator::generatePort(const Id &id, QPoint point, QPoint topleft, QPair<int, int> parent, QString t)
 {
-	Q_UNUSED(id);
-	QString result = "";
+	QDomElement portElement = mDocument.createElement("pointPort");
 	QPoint coordinate(point.rx() - topleft.rx() + 3, point.ry() - topleft.ry() + 3);
-	result += t + QString("Ellipse { \n")
-			+ QString("%1\tx: %2\n").arg(t).arg(factor(coordinate.rx(), parent.first, "width"))
-			+ QString("%1\ty: %2\n").arg(t).arg(factor(coordinate.ry(), parent.second, "height"))
-			+ t + QString("\twidth: 6 \n")
-			+ t + QString("\theight: 6 \n")
-			+ t + QString("\tcolor: ""\"black""\"\n");
-	return result;
+	portElement.setAttribute("y", QString::number(coordinate.y()));
+	portElement.setAttribute("x", QString::number(coordinate.x()));
+	portElement.setAttribute("type", mApi.property(id, "type").toString());
+	mElement.appendChild(portElement);
+	return "";
 }
 
 QString ShapeDiagramGenerator::generateEllipse(const Id &id, QPoint point, QPoint topleft, QPair<int, int> parent, QString t)
@@ -340,41 +356,41 @@ QString ShapeDiagramGenerator::generateCheckBox(const Id &id, QPoint point, QPoi
 
 QString ShapeDiagramGenerator::generateTextArea(const Id &id, QPoint point, QPoint topleft, QPair<int, int> parent, QString t)
 {
-	QString result = t + QString("TextArea { \n");
-	result += QString("%1\tx: %2\n").arg(t).arg(factor(point.rx() - topleft.rx(), parent.first, "width"))
-			+ QString("%1\ty: %2\n").arg(t).arg(factor(point.ry() - topleft.ry(), parent.second, "height"))
-			+ QString("%1\twidth: %2\n").arg(t).arg(factor(mApi.property(id, "width").toInt(), parent.first, "width"))
-			+ QString("%1\theight: %2\n").arg(t).arg(factor(mApi.property(id, "height").toInt(), parent.second, "height"));
-	return result;
+	QPoint coordinate(point.rx() - topleft.rx(), point.ry() - topleft.ry());
+//	QString result = t + QString("TextArea { \n");
+//	result += QString("%1\tx: %2\n").arg(t).arg(factor(point.rx() - topleft.rx(), parent.first, "width"))
+//			+ QString("%1\ty: %2\n").arg(t).arg(factor(point.ry() - topleft.ry(), parent.second, "height"))
+//			+ QString("%1\twidth: %2\n").arg(t).arg(factor(mApi.property(id, "width").toInt(), parent.first, "width"))
+//			+ QString("%1\theight: %2\n").arg(t).arg(factor(mApi.property(id, "height").toInt(), parent.second, "height"));
+//	return result;
+	QDomElement text = mDocument.createElement("label");
+	text.setAttribute("y", QString::number(coordinate.y()));
+	text.setAttribute("x", QString::number(coordinate.x()));
+	text.setAttribute(mApi.property(id, "isDynamic").toBool() ? "textBinded" : "text", mApi.property(id, "text").toString());
+	mLabels.appendChild(text);
+	return "";
 }
 
 QString ShapeDiagramGenerator::generateLinePort(const Id &id, QPoint point, QPoint topleft, QPair<int, int> parent, QString t)
 {
 	QPoint point_start(point.rx() - topleft.rx() + mApi.property(id, "startx").toInt(), point.ry() - topleft.ry() + mApi.property(id, "starty").toInt());
 	QPoint point_end(point.rx() - topleft.rx() + mApi.property(id, "endx").toInt(), point.ry() - topleft.ry() + mApi.property(id, "endy").toInt());
-	QString result = t + QString("Ellipse { \n");
-	result += QString("%1\tx: %2\n").arg(t).arg(factor(point_start.rx(), parent.first, "width"))
-			+ QString("%1\ty: %2\n").arg(t).arg(factor(point_start.ry(), parent.second, "height"))
-			+ t + QString("\twidth: 6 \n")
-			+ t + QString("\theight: 6 \n")
-			+ t + QString("\tcolor: ""\"black""\"\n")
-			+ t + QString("} \n")
-			+ t + QString("Ellipse { \n")
-			+ QString("%1\tx: %2\n").arg(t).arg(factor(point_end.rx(), parent.first, "width"))
-			+ QString("%1\ty: %2\n").arg(t).arg(factor(point_end.ry(), parent.second, "height"))
-			+ t + QString("\twidth: 6 \n")
-			+ t + QString("\theight: 6 \n")
-			+ t + QString("\tcolor: ""\"black""\"\n")
-			+ t + QString("} \n")
-			+ t + QString("Line { \n")
-			+ t + QString("%1\tx1: %2\n").arg(t).arg(factor(point_start.rx(), parent.first, "width"))
-			+ t + QString("%1\ty1: %2\n").arg(t).arg(factor(point_start.ry(), parent.second, "height"))
-			+ t + QString("%1\tx2: %2\n").arg(t).arg(factor(point_end.rx(), parent.first, "width"))
-			+ t + QString("%1\ty2: %2\n").arg(t).arg(factor(point_end.ry(), parent.second, "height"))
-			+ t + QString("\tcolor: ""\"black""\"\n")
-			+ t + QString("\tstyle: ""\"solid""\"\n")
-			+ t + QString("\twidth: 1\n");
-	return result;
+
+	QDomElement linePort = mDocument.createElement("linePort");
+	QDomElement start = mDocument.createElement("start");
+
+	linePort.appendChild(start);
+	start.setAttribute("startx", point_start.x());
+	start.setAttribute("starty", point_start.y());
+
+	QDomElement end = mDocument.createElement("end");
+	linePort.appendChild(end);
+	end.setAttribute("endx", point_end.x());
+	end.setAttribute("endy", point_end.y());
+
+	linePort.setAttribute("type", mApi.property(id, "type").toString());
+	mElement.appendChild(linePort);
+	return "";
 }
 
 QString ShapeDiagramGenerator::factor(int x, int y, QString parentsize)

@@ -37,33 +37,29 @@ Rectangle {
 			</ports>
 		  </graphics>
 		  <logic>
+			<properties>
+				<property type="DirectoryPath" name="name of the directory" displayedName="directory to generated code"/>
+			</properties>
 			<generalizations>
 			  <parent parentName="KernelDiagram::Diagram"/>
 			</generalizations>
-					<container>
-						<contains type="ShapeEditor::Rectangle"/>
-						<contains type="ShapeEditor::Line"/>
-						<contains type="ShapeEditor::Ellipse"/>
-						<contains type="ShapeEditor::Curve"/>
-						<contains type="ShapeEditor::Arc"/>
-						<contains type="ShapeEditor::Text"/>
-					</container>  
-				</logic>
-			</node>	
-            <node name="Rectangle" displayedName="Rectangle">
+			<container/>  
+		</logic>
+	</node>	
+        <node name="Rectangle" displayedName="Rectangle">
                 <graphics>
                     <picture sizex="100" sizey="100">import QtQuick 1.0
 Rectangle{
 	property string ids: ""
-	width: parseInt(models.getProperties(ids, "Width"))
-	height: parseInt(models.getProperties(ids, "Height"))
+	width: parseInt(models.getProperties(ids, "width"))
+	height: parseInt(models.getProperties(ids, "height"))
 	color: "transparent"
 	Rectangle{
-		x: parseInt(models.getProperties(ids, "X"))
-		y: parseInt(models.getProperties(ids, "Y"))
+		x: parseInt(models.getProperties(ids, "x"))
+		y: parseInt(models.getProperties(ids, "y"))
 		width: parent.width
 		height: parent.height
-		color: models.getProperties(ids, "Color")
+		color: models.getProperties(ids, "color")
 		border.color: models.getProperties(ids, "border.color")
 		border.width: parseInt(models.getProperties(ids, "border.width"))
 	}
@@ -71,22 +67,23 @@ Rectangle{
                     </picture>
                     <labels/>
                     <ports/>
-                </graphics>                                                                     <logic>
+                </graphics>                                                                   
+		  <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X" displayedName="X">
+                        <property type="int" name="x" displayedName="X">
 				<default>0</default>
 			</property>
-                        <property type="int" name="Y" displayedName="Y">
+                        <property type="int" name="y" displayedName="Y">
 				<default>0</default>
 			</property>
-                        <property type="int" name="Width" displayedName="Width">
+                        <property type="int" name="width" displayedName="Width">
 				<default>100</default>
 			</property>
-                        <property type="int" name="Height" displayedName="Height">
+                        <property type="int" name="height" displayedName="Height">
 				<default>100</default>
 			</property>
-                        <property type="color" name="Color" displayedName="Color">
+                        <property type="color" name="color" displayedName="Color">
 				<default>transparent</default>
 			</property>
                         <property type="color" name="border.color" displayedName="border.color">
@@ -105,16 +102,16 @@ Rectangle{
 import CustomComponents 1.0
 Rectangle{
 	property string ids: ""
-	width: parseInt(models.getProperties(ids, "Width"))
-	height: parseInt(models.getProperties(ids, "Height"))
+	width: parseInt(models.getProperties(ids, "width"))
+	height: parseInt(models.getProperties(ids, "height"))
 	color: "transparent"
 	Ellipse {
 		x: parent.width / 2
 		y: parent.height / 2
-		color: models.getProperties(ids, "Color")
+		color: models.getProperties(ids, "color")
 		width: parent.width
 		height: parent.height
-		border.style: models.getProperties(ids, "Style")
+		border.style: models.getProperties(ids, "border.style")
 		border.color: models.getProperties(ids, "border.color")
 		border.width: parseInt(models.getProperties(ids, "border.width"))
 	}
@@ -126,28 +123,28 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X" displayedName="X">
+                        <property type="int" name="x" displayedName="X">
                             <default>50</default>
                         </property>
-                        <property type="int" name="Y" displayedName="Y">
+                        <property type="int" name="y" displayedName="Y">
                             <default>50</default>
                         </property>
-                        <property type="int" name="Width" displayedName="Width">
+                        <property type="int" name="width" displayedName="Width">
                             <default>100</default>
                         </property>
-                        <property type="int" name="Height" displayedName="Height">
+                        <property type="int" name="height" displayedName="Height">
                             <default>100</default>
                         </property>
                         <property type="color" name="border.color" displayedName="Border.color">
                             <default>black</default>
                         </property>
-                        <property type="styleTypes" name="Style" displayedName="Style">
+                        <property type="styleTypes" name="border.style" displayedName="Style">
                             <default>solid</default>
                         </property>
                         <property type="int" name="border.width" displayedName="Border.width">
                             <default>1</default>
                         </property>
-                        <property type="color" name="Color" displayedName="Color">
+                        <property type="color" name="color" displayedName="Color">
                             <default>transparent</default>
                         </property>
                     </properties>
@@ -160,17 +157,17 @@ Rectangle{
 import CustomComponents 1.0
 Rectangle{
 	property string ids: ""
-        width: parseInt(models.getProperties(ids, "X2"))
-	height: parseInt(models.getProperties(ids, "Y2"))
+	width: Math.max(parseInt(models.getProperties(ids, "x2")), parseInt(models.getProperties(ids, "x1")))
+	height: Math.max(parseInt(models.getProperties(ids, "y2")), parseInt(models.getProperties(ids, "y1")))
 	color: "transparent"
 	Line {
-		x1: parseInt(models.getProperties(ids, "X1"))
-		y1: parseInt(models.getProperties(ids, "Y1"))
-		x2: parseInt(models.getProperties(ids, "X2"))
-		y2: parseInt(models.getProperties(ids, "Y2"))
-		color: models.getProperties(ids, "Color")
-		style: models.getProperties(ids, "Style")
-                width: parseInt(models.getProperties(ids, "PenWidth"))
+		x1: parseInt(models.getProperties(ids, "x1"))
+		y1: parseInt(models.getProperties(ids, "y1"))
+		x2: parseInt(models.getProperties(ids, "x2"))
+		y2: parseInt(models.getProperties(ids, "y2"))
+		color: models.getProperties(ids, "color")
+		style: models.getProperties(ids, "style")
+		width: parseInt(models.getProperties(ids, "PenWidth"))
 	}
 }	
                     </picture>
@@ -180,22 +177,22 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X1" displayedName="X1">
+                        <property type="int" name="x1" displayedName="X1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="Y1" displayedName="Y1">
+                        <property type="int" name="y1" displayedName="Y1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="X2" displayedName="X2">
+                        <property type="int" name="x2" displayedName="X2">
                             <default>100</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Y2">
+                        <property type="int" name="y2" displayedName="Y2">
                             <default>100</default>
                         </property>
-                        <property type="color" name="Color" displayedName="Color">
+                        <property type="color" name="color" displayedName="Color">
                             <default>black</default>
                         </property>
-                        <property type="styleTypes" name="Style" displayedName="Style">
+                        <property type="styleTypes" name="style" displayedName="Style">
 				<default>solid</default>
 			</property>
                         <property type="int" name="PenWidth" displayedName="PenWidth">
@@ -211,17 +208,17 @@ Rectangle{
 import CustomComponents 1.0
 Rectangle{
 	property string ids: ""
-	width: parseInt(models.getProperties(ids, "X2"))
-	height: parseInt(models.getProperties(ids, "Y2"))
+	width: parseInt(models.getProperties(ids, "x2"))
+	height: parseInt(models.getProperties(ids, "y2"))
 	color: "transparent"
 	Arc {
-		x1: parseInt(models.getProperties(ids, "X1"))
-		y1: parseInt(models.getProperties(ids, "Y1"))
+		x1: parseInt(models.getProperties(ids, "x1"))
+		y1: parseInt(models.getProperties(ids, "y1"))
 		x2: parent.width
 		y2: parent.height
-		color: models.getProperties(ids, "Color")
-		width: parseInt(models.getProperties(ids, "penWidth"))
-		style: models.getProperties(ids, "Style")
+		color: models.getProperties(ids, "color")
+		width: parseInt(models.getProperties(ids, "PenWidth"))
+		style: models.getProperties(ids, "style")
 		startAngle: parseInt(models.getProperties(ids, "startAngle"))
 		spanAngle: parseInt(models.getProperties(ids, "spanAngle"))
 	}
@@ -233,25 +230,25 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X1" displayedName="X1">
+                        <property type="int" name="x1" displayedName="X1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="Y1" displayedName="Y1">
+                        <property type="int" name="y1" displayedName="Y1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="X2" displayedName="X2">
+                        <property type="int" name="x2" displayedName="X2">
                             <default>50</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Y2">
+                        <property type="int" name="y2" displayedName="Y2">
                             <default>50</default>
                         </property>
-                        <property type="color" name="Color" displayedName="Color">
+                        <property type="color" name="color" displayedName="Color">
                             <default>black</default>
                         </property>
-                        <property type="styleTypes" name="Style" displayedName="Style">
+                        <property type="styleTypes" name="style" displayedName="Style">
 				<default>solid</default>
 			</property>
-                        <property type="int" name="penWidth" displayedName="Pen Width">
+                        <property type="int" name="PenWidth" displayedName="Pen Width">
                             <default>1</default>
                         </property>
                         <property type="int " name="startAngle" displayedName="startAngle">
@@ -266,18 +263,20 @@ Rectangle{
             </node>
             <node name="Text">
                 <graphics>
-                    <picture sizex="100" sizey="100">import QtQuick 1.0
+                    <picture sizex="20" sizey="20">import QtQuick 1.0
 Text{
+	width: 40
+	height: 20
 	property string ids: ""
-	x: parseInt(models.getProperties(ids, "X"))
-	y: parseInt(models.getProperties(ids, "Y"))
-	text: models.getProperties(ids, "Text")
-	color: models.getProperties(ids, "Color")
-	font.family: models.getProperties(ids, "fontFamily")
-	font.pixelSize: parseInt(models.getProperties(ids, "fontPixelSize"))
-	font.bold: models.getProperties(ids, "fontBold")
-	font.italic: models.getProperties(ids, "fontItalic")
-	font.underline: models.getProperties(ids, "fontUnderline")
+	x: parseInt(models.getProperties(ids, "x"))
+	y: parseInt(models.getProperties(ids, "y"))
+	text: models.getProperties(ids, "text")
+	color: models.getProperties(ids, "color")
+	font.family: models.getProperties(ids, "font.family")
+	font.pixelSize: parseInt(models.getProperties(ids, "font.pixelSize"))
+	font.bold: models.getProperties(ids, "font.bold")
+	font.italic: models.getProperties(ids, "font.italic")
+	font.underline: models.getProperties(ids, "font.underline")
 }
                     </picture>
                     <labels/>
@@ -286,16 +285,16 @@ Text{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X" displayedName="X">
+                        <property type="int" name="x" displayedName="X">
                             <default>0</default>
                         </property>
-                        <property type="int" name="Y" displayedName="Y">
+                        <property type="int" name="y" displayedName="Y">
                             <default>0</default>
                         </property>
-                        <property type="color" name="Color" displayedName="Color">
+                        <property type="color" name="color" displayedName="Color">
                             <default>black</default>
                         </property>
-                        <property type="string" name="Text" displayedName="Text">
+                        <property type="string" name="text" displayedName="Text">
                             <default>text</default>
                         </property>
                         <property type="string" name="font.family" displayedName="fontFamily"/>
@@ -321,14 +320,14 @@ Text{
 import CustomComponents 1.0
 Rectangle {
 	property string ids: ""
-	width: parseInt(models.getProperties(ids, "X2"))
-	height: parseInt(models.getProperties(ids, "Y2"))
+	width: parseInt(models.getProperties(ids, "x2"))
+	height: parseInt(models.getProperties(ids, "y2"))
 	Picture { 
-		x1 :  parseInt(models.getProperties(ids, "X1"))
-		y1 : parseInt(models.getProperties(ids, "Y1"))
+		x1 :  parseInt(models.getProperties(ids, "x1"))
+		y1 : parseInt(models.getProperties(ids, "y1"))
 		x2 : parent.width
 		y2 : parent.height 
-		source: "images/pencil1.png"
+		source: models.getProperties(ids, "source") == "" ? "images/pencil1.png" : models.getProperties(ids, "source")
 	}		
 }
 			</picture>
@@ -338,28 +337,28 @@ Rectangle {
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X1" displayedName="X1">
+                        <property type="int" name="x1" displayedName="X1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="Y1" displayedName="Y1">
+                        <property type="int" name="y1" displayedName="Y1">
                             <default>0</default>
                         </property>
-                        <property type="int" name="X2" displayedName="X2">
+                        <property type="int" name="x2" displayedName="X2">
                             <default>100</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Y2">
+                        <property type="int" name="y2" displayedName="Y2">
                             <default>100</default>
                         </property>
-                        <property type="string" name="Source" displayedName="Source">
-                            <default>""</default>
-                        </property>
+                        <property type="FilePath" name="source" displayedName="Source">
+				<default>images/pencil1.png</default>
+			</property> 
                     </properties>
                     <explodesTo/>
                 </logic>
             </node>
             <node name="Curve">
                 <graphics>
-                    <picture sizex="110" sizey="110">import QtQuick 1.0
+                    <picture sizex="100" sizey="100">import QtQuick 1.0
 import CustomComponents 1.0
 Rectangle{
 	property string ids: ""
@@ -373,11 +372,11 @@ Rectangle{
 		starty: parseInt(models.getProperties(ids, "starty"))
 		endx: parent.width
 		endy: parent.height
-		style: models.getProperties(ids, "Style")
-		x: parseInt(models.getProperties(ids, "X"))
-		y: parseInt(models.getProperties(ids, "Y"))
-		color: models.getProperties(ids, "Color")
-		fill: models.getProperties(ids, "Fill")
+		style: models.getProperties(ids, "style")
+		x: parseInt(models.getProperties(ids, "x"))
+		y: parseInt(models.getProperties(ids, "y"))
+		color: models.getProperties(ids, "color")
+		fill: models.getProperties(ids, "fill")
 	}
 }	
                     </picture>
@@ -399,19 +398,19 @@ Rectangle{
                         <property type="int" name="endy" displayedName="endy">
                             <default>100</default>
                         </property>
-                        <property type="int" name="X" displayedName="x">
+                        <property type="int" name="x" displayedName="x">
                             <default>50</default>
                         </property>
-                        <property type="int" name="Y" displayedName="y">
+                        <property type="int" name="y" displayedName="y">
                             <default>50</default>
                         </property>
-                        <property type="color" name="Color" displayedName="Color">
-                            <default>Qt::black</default>
+                        <property type="color" name="color" displayedName="Color">
+                            <default>black</default>
                         </property>
-                        <property type="color" name="Fill" displayedName="Fill">
+                        <property type="color" name="fill" displayedName="Fill">
                             <default>transparent</default>
                         </property>
-                        <property type="styleTypes" name="Style" displayedName="Style">
+                        <property type="styleTypes" name="style" displayedName="Style">
 				<default>solid</default>
 			</property>
                     </properties>
@@ -441,14 +440,16 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-			<property type="string" name="Type" displayedName="Type"/>
+			<property type="string" name="type" displayedName="Type">
+				<default>NonTyped</default>
+			</property>
 		    </properties>
                     <explodesTo/>
                 </logic>
             </node>
-            <node name="portLine" displayedName="portLine">
+            <node name="portLine" displayedName="Port Line">
                 <graphics>
-                    <picture sizex="104" sizey="140">import QtQuick 1.0
+                    <picture sizex="100" sizey="100">import QtQuick 1.0
 import CustomComponents 1.0
 Rectangle{
 	color:"transparent"
@@ -456,8 +457,8 @@ Rectangle{
 	height: parseInt(models.getProperties(ids, "endy"))
 	property string ids: ""
 	Ellipse{
-		x: parseInt(models.getProperties(ids, "Startx"))
-		y: parseInt(models.getProperties(ids, "Starty"))
+		x: parseInt(models.getProperties(ids, "startx"))
+		y: parseInt(models.getProperties(ids, "starty"))
 		color: "black"
 		width: 6
 		height: 6	
@@ -470,8 +471,8 @@ Rectangle{
 		height: 6	
 	}
 	Line {
-		x1: parseInt(models.getProperties(ids, "Startx"))
-		y1: parseInt(models.getProperties(ids, "Starty"))
+		x1: parseInt(models.getProperties(ids, "startx"))
+		y1: parseInt(models.getProperties(ids, "starty"))
 		x2: parent.width
 		y2: parent.height
 		color: "black"
@@ -487,10 +488,10 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="Startx" displayedName="Startx">
+                        <property type="int" name="startx" displayedName="Startx">
                             <default>0</default>
                         </property>
-                        <property type="int" name="Starty" displayedName="Starty">
+                        <property type="int" name="starty" displayedName="Starty">
                             <default>0</default>
                         </property>
                         <property type="int" name="endx" displayedName="Endx">
@@ -499,20 +500,22 @@ Rectangle{
                         <property type="int" name="endy" displayedName="Endy">
                             <default>50</default>
                         </property>
-
+                        <property type="string" name="type" displayedName="Type">
+				<default>NonTyped</default>
+			</property>
                     </properties>
                     <explodesTo/>
                 </logic>
             </node>
             <node name="Button" displayedName="Button">
                 <graphics>
-                    <picture sizex="104" sizey="140">import QtQuick 1.0
+                    <picture sizex="100" sizey="20">import QtQuick 1.0
 import CustomComponents 1.0
 import "qrc:/qmlType/Control/"
 Rectangle{
         color:"transparent"
-        width: parseInt(models.getProperties(ids, "X2"))
-        height: parseInt(models.getProperties(ids, "Y2"))
+        width: parseInt(models.getProperties(ids, "width"))
+        height: parseInt(models.getProperties(ids, "height"))
         property string ids: ""
 	Button {
 		buttonWidth: parent.width
@@ -531,11 +534,11 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X2" displayedName="Width">
+                        <property type="int" name="width" displayedName="Width">
                             <default>50</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Height">
-                            <default>0</default>
+                        <property type="int" name="height" displayedName="Height">
+                            <default>20</default>
                         </property>
                         <property type="string" name="text" displayedName="Text">
                             <default>OK</default>
@@ -557,18 +560,17 @@ Rectangle{
                 <graphics>
                     <picture sizex="104" sizey="140">import QtQuick 1.0
 import CustomComponents 1.0
-import "qrc:/qmlType/Control/"
-Rectangle{
-        color:"transparent"
-        width: parseInt(models.getProperties(ids, "X2"))
-        height: parseInt(models.getProperties(ids, "Y2"))
-        property string ids: ""
-	TextArea {
-		width: parent.width
-		height: parent.height 
-	}
+Text{
+	property string ids: ""
+	x: 0
+	y: 0
+	text: models.getProperties(ids, "text")
+	color: models.getProperties(ids, "fontColor")
+	font.pixelSize: 14
+	font.bold: false
+	font.italic: false
+	font.underline: false
 }
-
                     </picture>
                     <labels/>
                     <ports/>
@@ -576,12 +578,21 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X2" displayedName="Width">
+                        <property type="int" name="width" displayedName="Width">
                             <default>100</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Height">
+                        <property type="int" name="height" displayedName="Height">
                             <default>20</default>
                         </property>
+			<property type="string" name="text" displayedName="Text">
+				<default>name</default>
+			</property>
+			<property type="bool" name="isDynamic" displayedName="Is dynamic">
+				<default>true</default>
+			</property>
+			<property type="string" name="fontColor" displayedName="Font Color">
+				<default>white</default>
+			</property>
                     </properties>
                     <explodesTo/>
                 </logic>
@@ -593,8 +604,8 @@ import CustomComponents 1.0
 import "qrc:/qmlType/Control/"
 Rectangle{
         color:"transparent"
-        width: parseInt(models.getProperties(ids, "X2"))
-        height: parseInt(models.getProperties(ids, "Y2"))
+        width: parseInt(models.getProperties(ids, "width"))
+        height: parseInt(models.getProperties(ids, "height"))
         property string ids: ""
 	CheckBox {
 		width: parent.width
@@ -610,10 +621,10 @@ Rectangle{
                 <logic>
                     <container/>
                     <properties>
-                        <property type="int" name="X2" displayedName="Width">
+                        <property type="int" name="width" displayedName="Width">
                             <default>100</default>
                         </property>
-                        <property type="int" name="Y2" displayedName="Height">
+                        <property type="int" name="height" displayedName="Height">
                             <default>20</default>
                         </property>
                         <property type="string" name="text" displayedName="Text">
@@ -623,7 +634,6 @@ Rectangle{
                     <explodesTo/>
                 </logic>
             </node>
-
         </graphicTypes>
     </diagram>
 </metamodel>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metamodel xmlns="http://schema.real.com/schema/">
 	<include>../../commonMetamodels/kernelMetamodel.xml</include>
+	<include>../../shapeDiagram/editor/shapeDiagram.xml</include>	
 	<namespace>UML 2.0</namespace>
 	<diagram name="MetaEditor" nodeName="MetamodelDiagram" displayedName="Meta Editor">
 		<nonGraphicTypes>
@@ -32,8 +33,14 @@
 				<value name="debug" displayedName="Debug"/>
 				<value name="release" displayedName="Release"/>
 			</enum>
+			<groups>
+				<group name="ShapeDiagramGroup" rootNode="diagram">
+					<groupNode type="ShapeDiagramNode" name="diagram" xPosition="0" yPosition="0"/>
+				</group>
+			</groups> 		
 		</nonGraphicTypes>
 		<graphicTypes>
+			<import as="ShapeDiagramNode" displayedName="ShapeDiagramNode" name="ShapeEditor::ShapeDiagramNode" />
 			<node name="PackageDiagram" displayedName="Package Diagram" description="Предназначен для описания связей между метамоделями. Также может быть корневым элементом метамодели">
 				<graphics>
 					<picture sizex="150" sizey="130">
@@ -196,6 +203,12 @@
 							<childrenForestalling size="5"/>
 						</properties>
 					</container>
+					<connections>
+						<connection type="ShapeEditor::ShapeDiagram"/>
+					</connections>
+					<explodesTo>
+						<target type="ShapeDiagramGroup" makeReusable="false" requireImmediateLinkage="true"/>
+					</explodesTo>
 				</logic>
 			</node>
 			<node name="MetaEntityPort" displayedName="Port" description="Элемент для описания нового типа портов для элементов создаваемого языка. Должен вкладываться в Meta Editor Diagram">
@@ -275,6 +288,9 @@
 							<childrenForestalling size="5"/>
 						</properties>
 					</container>
+					<explodesTo>
+						<target type="ShapeDiagramGroup" makeReusable="false" requireImmediateLinkage="true"/>
+					</explodesTo>
 				</logic>
 			</node>
 			<node name="MetaEntityEnum" displayedName="Enum" description="Элемент для описания перечисляемого типа данных для создаваемого языка (см. Value). Вкладывается в Meta Editor Diagram">

@@ -1,6 +1,7 @@
 import QtQuick 1.0 
 import CustomComponents 1.0 
 Rectangle { 
+	property string ids: ""
 	width: 30; height: 30
 	color: "transparent"
 	Ellipse { 
@@ -10,7 +11,7 @@ Rectangle {
 		height: 1 * parent.height / 1
 		color: "#ffffff"
 		border.color: "#000000"
-		border.style: "solid"
+		border.style: "dot"
 		border.width: 1
 	} 
 	Ellipse { 

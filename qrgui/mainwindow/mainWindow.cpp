@@ -64,7 +64,6 @@
 #include "qmlType/declarativeImage.h"
 #include "qmlType/declarativeCurve.h"
 #include "qmlType/declarativePolygon.h"
-#include "qmlType/qqmlgenerator.h"
 
 using namespace qReal;
 using namespace qReal::commands;
@@ -115,7 +114,7 @@ MainWindow::MainWindow(QString const &fileToOpen)
 	initMiniMap();
 	initGridProperties();
 
-	QmlIconLoader::setQmlEngine(mQmlEngine);
+	//QmlIconLoader::setQmlEngine(mQmlEngine);
 
 	splashScreen.setProgress(40);
 
@@ -123,9 +122,9 @@ MainWindow::MainWindow(QString const &fileToOpen)
 	mModels = new models::Models(mProjectManager->saveFilePath(), mEditorManagerProxy);
 
 	//
-	mQmlEngine->addImportPath(":/qmlType/Control/Button.qml");
 	mQmlEngine->rootContext()->setContextProperty("models", &mModels->graphicalModelAssistApi());
 	//
+	QmlIconLoader::setQmlEngine(mQmlEngine);
 
 	mExploser.reset(new Exploser(mModels->logicalModelAssistApi()));
 
@@ -137,10 +136,8 @@ MainWindow::MainWindow(QString const &fileToOpen)
 
 
 	splashScreen.setProgress(60);
-	qDebug() << "May be there";
 	loadPlugins();
 
-	qDebug() << "Test";
 	splashScreen.setProgress(70);
 
 	mDocksVisibility.clear();
@@ -614,17 +611,6 @@ void MainWindow::makeSvg()
 
 	QPainter painter(&newSvg);
 	getCurrentTab()->scene()->render(&painter);
-}
-
-void MainWindow::makeQml()
-{
-	QQmlGenerator newQml;
-//	QString fileName = utils::QRealFileDialog::getSaveFileName("SaviDiagramAaQml", this);
-//	if (fileName.isEmpty()) {
-//		return;
-//	}
-	qDebug() << newQml.processing(getCurrentTab()->scene()->items());
-
 }
 
 void MainWindow::deleteElementFromDiagram(Id const &id)

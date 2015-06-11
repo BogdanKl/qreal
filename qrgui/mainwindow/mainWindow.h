@@ -76,8 +76,6 @@ public:
 	MainWindow(QString const &fileToOpen = QString());
 	~MainWindow();
 
-	void makeQml();
-
 	EditorManagerInterface &editorManager();
 	EditorView *getCurrentTab() const;
 	bool isCurrentTabShapeEdit() const;

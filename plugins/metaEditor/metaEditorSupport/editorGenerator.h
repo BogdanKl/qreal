@@ -7,15 +7,20 @@
 
 #include "../../../qrkernel/ids.h"
 #include "../../../qrgui/toolPluginInterface/usedInterfaces/errorReporterInterface.h"
+#include "../../../qrgui/toolPluginInterface/toolPluginInterface.h"
 #include "../../../qrrepo/logicalRepoApi.h"
+#include "../../../qrrepo/graphicalRepoApi.h"
+#include "../../../shapeDiagram/shapeDiagramSupport/shapeDiagramGenerator.h"
 
 namespace metaEditor {
 
 /// Generates metamodel in .xml format to be compiled into C++ sources by qrxc tool
 class EditorGenerator
 {
+
 public:
-	explicit EditorGenerator(qrRepo::LogicalRepoApi const &api, qReal::ErrorReporterInterface &errorReporter);
+	explicit EditorGenerator(qReal::GraphicalModelAssistInterface &gmapi, qrRepo::GraphicalRepoApi const &gapi, qrRepo::LogicalRepoApi const &api, qReal::ErrorReporterInterface &errorReporter);
+	virtual ~EditorGenerator();
 
 	QHash<qReal::Id, QPair<QString, QString> > getMetamodelList();
 	QPair<QString, QString> generateEditor(qReal::Id const &metamodelId, QString const &pathToFile, QString const &pathToQRealSource);
@@ -57,6 +62,8 @@ private:
 	static void generateTranslations(QString const &path, QString const &name);
 
 	qrRepo::LogicalRepoApi const &mApi;
+	qrRepo::GraphicalRepoApi const &mGApi;
+	qReal::GraphicalModelAssistInterface &mGraphicalAssistModelApi;
 	QDomDocument mDocument;
 	QString mErrorText;
 	qReal::IdList mElements;

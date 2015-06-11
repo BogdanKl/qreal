@@ -33,6 +33,8 @@ MetaEditorSupportPlugin::~MetaEditorSupportPlugin()
 
 void MetaEditorSupportPlugin::init(PluginConfigurator const &configurator)
 {
+	mGraphicalAssistApi = &configurator.graphicalModelApi();
+	mGraphicalRepoApi = &configurator.graphicalModelApi().mutableGraphicalRepoApi();
 	mMainWindowInterface = &configurator.mainWindowInterpretersInterface();
 	mLogicalRepoApi = &configurator.logicalModelApi().mutableLogicalRepoApi();
 	mRepoControlApi = &configurator.repoControlInterface();
@@ -66,7 +68,7 @@ QPair<QString, PreferencesPage *> MetaEditorSupportPlugin::preferencesPage()
 
 void MetaEditorSupportPlugin::generateEditorForQrxc()
 {
-	EditorGenerator editorGenerator(*mLogicalRepoApi, *mMainWindowInterface->errorReporter());
+	EditorGenerator editorGenerator(*mGraphicalAssistApi, *mGraphicalRepoApi, *mLogicalRepoApi, *mMainWindowInterface->errorReporter());
 
 	QDir dir(".");
 

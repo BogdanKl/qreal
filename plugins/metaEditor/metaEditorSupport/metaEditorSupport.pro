@@ -1,4 +1,4 @@
-QT += xml widgets
+QT += xml widgets                                                        	
 
 TEMPLATE = lib
 CONFIG += plugin c++11
@@ -11,7 +11,7 @@ INCLUDEPATH += \
 	$$PWD/../../.. \
 	$$PWD/../../../qrgui/ \
 
-LIBS += -L../../../bin -lqrkernel -lqrutils -lqrmc
+LIBS += -L../../../bin -lqrkernel -lqrutils -lqrmc -lshapeDiagramSupport
 
 TRANSLATIONS = metaEditorSupport_ru.ts
 
@@ -22,7 +22,8 @@ HEADERS += \
 	editorGenerator.h \
 	xmlParser.h \
 	compilerPage.h \
-	../../../qrgui/dialogs/preferencesPages/preferencesPage.h
+	../../../qrgui/dialogs/preferencesPages/preferencesPage.h \
+
 
 SOURCES += \
 	metaEditorSupportPlugin.cpp \

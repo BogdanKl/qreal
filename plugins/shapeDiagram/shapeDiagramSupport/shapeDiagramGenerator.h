@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QtCore/QObject>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomText>
 
 #include <QPair>
 
@@ -20,7 +23,7 @@ public:
 	virtual ~ShapeDiagramGenerator();
 	/// Starts generation process.
 	void generate();
-	QList<QVariant> generateExplosion(qReal::Id const &id);
+	QString generateExplosion(qReal::Id const &id);
 private:
 	void calculateSize(qReal::Id const &id, QPoint &topleft, QPoint &topright);
 
@@ -57,6 +60,9 @@ private:
 	qReal::ErrorReporterInterface &mErrorReporter;
 
 	QPair<int, int> mParent;
+	QDomDocument mDocument;
+	QDomElement mElement;
+	QDomElement mLabels;
 };
 
 }

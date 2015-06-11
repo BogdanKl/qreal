@@ -18,10 +18,17 @@ using namespace qReal;
 using namespace metaEditor;
 using namespace utils;
 
-EditorGenerator::EditorGenerator(qrRepo::LogicalRepoApi const &api, ErrorReporterInterface &errorReporter)
-		: mApi(api)
+EditorGenerator::EditorGenerator(qReal::GraphicalModelAssistInterface &gmapi, qrRepo::GraphicalRepoApi const &gapi, qrRepo::LogicalRepoApi const &api, ErrorReporterInterface &errorReporter)
+		: mGraphicalAssistModelApi(gmapi)
+		, mGApi(gapi)
+		, mApi(api)
 		, mErrorReporter(errorReporter)
 {
+}
+
+EditorGenerator::~EditorGenerator()
+{
+
 }
 
 QHash<Id, QPair<QString,QString> > EditorGenerator::getMetamodelList()
@@ -285,7 +292,10 @@ void EditorGenerator::createNode(QDomElement &parent, Id const &id)
 	parent.appendChild(node);
 
 	QDomDocument graphics;
-	graphics.setContent(mApi.stringProperty(id, "shape"));
+	qReal::Id gId = mGraphicalAssistModelApi.graphicalIdsByLogicalId(mApi.outgoingExplosion(id)).first();
+	shapeDiagram::ShapeDiagramGenerator s(mGApi, mApi, mErrorReporter);
+	QString res = s.generateExplosion(gId);
+	graphics.setContent(res);
 	node.appendChild(graphics);
 
 	if (mApi.stringProperty(id, "isResizeable") == "false") {
