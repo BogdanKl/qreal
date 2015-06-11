@@ -209,6 +209,8 @@ private:
 
 	void initQml();
 
+	bool isPropertyCnage(QMap<QString, QVariant> &list, QString name, bool isWidth);
+
 	/**
 	 * Resizes node trying to use newContents as new shape
 	 * of node (ignoring newContents position) and to move

@@ -441,7 +441,7 @@ QIcon InterpreterEditorManager::icon(Id const &id) const
 		return QIcon();
 	}
 
-	return QmlIconLoader::iconOf(source);
+	return QmlIconLoader::iconOf(source, metaId);
 }
 
 ElementImpl *InterpreterEditorManager::elementImpl(Id const &id) const

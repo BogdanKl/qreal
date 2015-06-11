@@ -3,6 +3,8 @@
 #include <QtCore/QMap>
 #include <QtGui/QIcon>
 
+#include <qrkernel/ids.h>
+
 class QDeclarativeEngine;
 
 namespace qReal {
@@ -15,14 +17,14 @@ public:
 	static void setQmlEngine(QDeclarativeEngine * const engine);
 
 	/// Returns a pixmap of element in specified qml-file
-	static QIcon iconOf(QString const &qmlString);
+	static QIcon iconOf(QString const &qmlString, Id const &id);
 
 	/// Returns a size of the pixmap of element in specified qml-file
-	static QSize preferedSizeOf(QString const &qmlString);
+	static QSize preferedSizeOf(QString const &qmlStringm, Id const &id);
 
 private:
 	static QmlIconLoader *instance();
-	static QIcon loadPixmap(QString const &qmlString);
+	static QIcon loadPixmap(QString const &qmlString, Id const &id);
 
 	QmlIconLoader();
 	~QmlIconLoader();

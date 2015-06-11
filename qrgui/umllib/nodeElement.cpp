@@ -199,52 +199,61 @@ void NodeElement::setGeometry(QRectF const &geom)
 	QTimer::singleShot(0, this, SLOT(syncQmlItemSize()));
 }
 
+bool NodeElement::isPropertyCnage(QMap<QString, QVariant> &list, QString name, bool isWidth)
+{
+	int mCont = isWidth ? mContents.width() : mContents.height();
+	int mParent = isWidth ? mQmlItem->width() : mQmlItem->height();
+	if (list.contains(name)) {
+		int property = mGraphicalAssistApi.properties(logicalId()).take(name).toInt();
+		if (property != (int)((float) property / (float) mParent * mCont) && property != 0) {
+			list.insert(name, (int)((float) property / (float) mParent * mCont));
+			return true;
+		} else {
+			return false;
+		}
+	}
+	return false;
+}
+
 void NodeElement::syncQmlItemSize()
 {
 	QMap<QString, QVariant> list = mGraphicalAssistApi.properties(logicalId());
-	bool propertyChange =false;
-	if (list.contains("Width") && list.contains("Height")) {
-		if (list.value("Width") != mContents.width() || list.value("Height") != mContents.height()) {
-			if (list.contains("X")) {
-				int x = list.value("X").toInt();
-				int y = list.value("Y").toInt();
-				int width = list.value("Width").toInt();
-				int height = list.value("Height").toInt();
-				//qDebug() << "X" << ((float)( x / width) * mContents.width());
-				list.insert("X", (int)(( (float)x / (float)width) * mContents.width()));
-				list.insert("Y", (int) (((float) y / (float) height) * mContents.height()));
+	bool propertyChange = false;
+	if (list.contains("x1")) {
+		propertyChange = isPropertyCnage(list, "x1", true) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "y1", false) ? true : propertyChange;
+	}
+	if (list.contains("x2")) {
+		propertyChange = isPropertyCnage(list, "x2", true) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "y2", false) ? true : propertyChange;
+	}
+	if (list.contains("width") && list.contains("height")) {
+		if (list.value("width") != mContents.width() || list.value("height") != mContents.height()) {
+			if (list.contains("x")) {
+				int x = list.value("x").toInt();
+				int y = list.value("y").toInt();
+				int width = list.value("width").toInt();
+				int height = list.value("height").toInt();
+				list.insert("x", (int)((float) x / (float)width * mContents.width()));
+				list.insert("y", (int)((float) y / (float) height * mContents.height()));
 			}
-			list.insert("Width", mContents.width());
-			list.insert("Height", mContents.height());
+			list.insert("width", mContents.width());
+			list.insert("height", mContents.height());
 			mGraphicalAssistApi.setProperties(logicalId(), list);
 			propertyChange = true;
 		}
 	}
 	if (list.contains("endx")) {
-		if (list.value("endx") != mContents.width() || list.value("endy") != mContents.height()) {
-			int x = list.value("X").toInt();
-			int y = list.value("Y").toInt();
-			int width = list.value("endx").toInt();
-			int height = list.value("endy").toInt();
-			if (list.contains("X")) {
-				list.insert("X", (int) (((float) x / (float) width) * mContents.width()));
-				list.insert("Y", (int) (((float) y / (float) height) * mContents.height()));
-			}
-			list.insert("endx", mContents.width());
-			list.insert("endy", mContents.height());
-			mGraphicalAssistApi.setProperties(logicalId(), list);
-			propertyChange = true;
-		}
+		propertyChange = isPropertyCnage(list, "startx", true) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "starty", false) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "endx", true) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "endy", false) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "x", true) ? true : propertyChange;
+		propertyChange = isPropertyCnage(list, "y", false) ? true : propertyChange;
 	}
-	if (list.contains("X2")) {
-		if (list.value("X2") != mContents.width() || list.value("Y2") != mContents.height()) {
-			list.insert("X2", mContents.width());
-			list.insert("Y2", mContents.height());
-			mGraphicalAssistApi.setProperties(logicalId(), list);
-			propertyChange = true;
-		}
-	}
-	if (propertyChange) { updateData(); }
+	if (propertyChange) {
+		mGraphicalAssistApi.setProperties(logicalId(), list);
+		updateData(); }
 	mQmlItem->setSize(mContents.size());
 }
 
@@ -864,7 +873,6 @@ void NodeElement::updateData()
 	}
 	mElementImpl->updateData(this);
 	QDeclarativeProperty propertyIds(mQmlItem,"ids");
-	qDebug() << "Contents " << mContents.width();
 	propertyIds.write("");
 	propertyIds.write(logicalId().toString());
 	mContents.setWidth(mQmlItem->property("width").toReal());

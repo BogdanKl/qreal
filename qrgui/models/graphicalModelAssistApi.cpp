@@ -97,6 +97,141 @@ QMap<QString, QVariant> GraphicalModelAssistApi::properties(Id const id)
 QVariant GraphicalModelAssistApi::getProperties(QString const ids, QString type)
 {
 	if (!ids.isEmpty()) {
+		Id elemId = Id::loadFromString(ids);
+		if (ids == elemId.type().toString())
+		{
+			if (elemId.element() == "Line") {
+				if (type == "x1" || type == "y1") {
+					return "0";
+				} else if (type == "x2" || type == "y2") {
+					return "100";
+				} else if (type == "PenWidth") {
+					return "1";
+				} else if (type == "color") {
+					return "black";
+				} else if (type == "style") {
+					return "Solid";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Rectangle") {
+				if (type == "x" || type == "y") {
+					return "0";
+				} else if (type == "width" || type == "height") {
+					return "100";
+				} else if (type == "color") {
+					return "white";
+				} else if (type == "border.color"){
+					return "black";
+				} else if (type == "border.width") {
+					return "1";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Ellipse") {
+				if (type == "x" || type == "y") {
+					return "50";
+				} else if (type == "width" || type == "height") {
+					return "100";
+				} else if (type == "color") {
+					return "white";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Curve") {
+				if (type == "startx" || type == "starty") {
+					return "0";
+				} else if (type == "endx" || type == "endy") {
+					return "100";
+				} else if (type == "width") {
+					return "1";
+				} else if (type == "color") {
+					return "black";
+				} else if (type == "x") {
+					return "70";
+				} else if (type == "y") {
+					return "40";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Image") {
+				if (type == "x1" || type == "y1") {
+					return "0";
+				} else if (type == "x2" || type == "y2") {
+					return "100";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Arc") {
+				if (type == "x1" || type == "y1") {
+					return "0";
+				} else if (type == "x2" || type == "y2") {
+					return "100";
+				} else if (type == "PenWidth") {
+					return "1";
+				} else if (type == "color") {
+					return "black";
+				} else if (type == "style") {
+					return "Solid";
+				} else if (type == "startAngle"){
+					return "0";
+				} else  if (type == "spanAngle"){
+					return "1440";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Button") {
+				if (type == "height") {
+					return "20";
+				} else if (type == "width") {
+					return "100";
+				} else if (type == "buttonColor") {
+					return "grey";
+				} else if (type == "borderColor"){
+					return "black";
+				} else if (type == "textColor") {
+					return "black";
+				} else if (type == "text") {
+					return "Button";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "CheckBox") {
+				if (type == "height") {
+					return "20";
+				} else if (type == "width") {
+					return "100";
+				} else if (type == "text") {
+					return "check";
+				}
+			} else if (elemId.element() == "TextArea") {
+				if (type == "height") {
+					return "20";
+				} else if (type == "width") {
+					return "100";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "Text") {
+				if (type == "text") {
+					return "test";
+				} else if (elemId.element() == "font.pixelSize") {
+					return "20";
+				} else {
+					return "";
+				}
+			} else if (elemId.element() == "PortLine") {
+				if (type == "startx" || type == "starty"){
+					return "6";
+				} else if (type == "endx" || type == "endy") {
+					return "44";
+				} else {
+					return "";
+				}
+			} else {
+				return "";
+			}
+		}
 		return mGraphicalModel.mutableApi().properties(Id::loadFromString(ids)).take(type).toString();
 	} else {
 		return "";
