@@ -453,8 +453,8 @@ Rectangle{
 import CustomComponents 1.0
 Rectangle{
 	color:"transparent"
-	width: parseInt(models.getProperties(ids, "endx")) 
-	height: parseInt(models.getProperties(ids, "endy"))
+	width: Math.max(parseInt(models.getProperties(ids, "endx")), parseInt(models.getProperties(ids, "startx")))
+	height: Math.max(parseInt(models.getProperties(ids, "endy")), parseInt(models.getProperties(ids, "starty")))
 	property string ids: ""
 	Ellipse{
 		x: parseInt(models.getProperties(ids, "startx"))
@@ -464,8 +464,8 @@ Rectangle{
 		height: 6	
 	}
 	Ellipse{
-		x: parent.width
-		y: parent.height
+		x: parseInt(models.getProperties(ids, "endx"))
+		y: parseInt(models.getProperties(ids, "endy"))
 		color: "black"
 		width: 6
 		height: 6	
@@ -473,8 +473,8 @@ Rectangle{
 	Line {
 		x1: parseInt(models.getProperties(ids, "startx"))
 		y1: parseInt(models.getProperties(ids, "starty"))
-		x2: parent.width
-		y2: parent.height
+		x2: parseInt(models.getProperties(ids, "endx"))
+		y2: parseInt(models.getProperties(ids, "endy"))
 		color: "black"
 		style: "solid"
 		width: 1
